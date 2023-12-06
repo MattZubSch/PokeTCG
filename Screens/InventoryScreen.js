@@ -5,7 +5,7 @@ const InventoryScreen = () => {
   return (
     <View>
         <View style={styles.mainContainer}>
-        <TouchableOpacity style={styles.btnTouchables}>
+            <TouchableOpacity style={styles.btnTouchables}>
                 <Text style={styles.btnText}>Abrir Sobres</Text>
             </TouchableOpacity>
         </View>
@@ -17,9 +17,7 @@ export default InventoryScreen
 
 const styles = StyleSheet.create({
     mainContainer: {
-        flex: 1,
         justifyContent: 'center',
-        alignItems: 'center',
     },
     btnTouchables: {
         backgroundColor: '#112A46',

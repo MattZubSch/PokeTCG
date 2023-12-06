@@ -18,7 +18,6 @@ export default Header
 const styles = StyleSheet.create({
     title1: {
         fontSize: 30,
-        fontWeight: 'bold',
         color: 'black',
         textAlign: 'center',
         backgroundColor: '#ACC8E5',
@@ -26,6 +25,7 @@ const styles = StyleSheet.create({
         borderBottomColor: 'black',
         borderBottomWidth: 1,
         marginBottom: 10,
+        fontFamily: 'Montserrat',
     },
     title2: {
         fontSize: 30,
@@ -37,6 +37,7 @@ const styles = StyleSheet.create({
         borderBottomColor: 'black',
         borderBottomWidth: 1,
         marginBottom: 10,
+        fontFamily: 'MontserratThin',
     },
     headerContainer: {
         width: '100%',

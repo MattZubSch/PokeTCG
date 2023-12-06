@@ -1,15 +1,17 @@
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native'
+import React, { useState} from 'react'
 import Header from '../Components/Header'
+import HeaderArchivements from '../Components/HeaderArchivements'
 
 const HomeScreen = ({navigation}) => {
+    const [level, setLevel] = useState(1)
+    const [coins, setCoins] = useState(500)
+
+
   return (
-    <View>
+    <ScrollView>
         <Header />
-        <View style={styles.userAcrchivements}>
-            <Text>LV: 0</Text>
-            <Text>Coins: 500</Text>
-        </View>
+        <HeaderArchivements lv={level} coins={coins}/>
         <View>
             <TouchableOpacity 
             style={styles.btnTouchables}
@@ -17,7 +19,10 @@ const HomeScreen = ({navigation}) => {
             >
                 <Text style={styles.btnText}>Inventario</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.btnTouchables}>
+            <TouchableOpacity 
+            style={styles.btnTouchables}
+            onPress={() => setLevel(level + 1)}
+            >
                 <Text style={styles.btnText}>Tienda</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.btnTouchables}>
@@ -26,11 +31,29 @@ const HomeScreen = ({navigation}) => {
             <TouchableOpacity style={styles.btnTouchables}>
                 <Text style={styles.btnText}>Intercambios</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.btnTouchables}>
+            <TouchableOpacity 
+            style={styles.btnTouchables}
+            onPress={() => setCoins(coins + 100)}
+            >
                 <Text style={styles.btnText}>Conseguir Monedas</Text>
             </TouchableOpacity>
+            <TouchableOpacity 
+            onPress={() => {
+                setLevel(1)
+                setCoins(500)
+            }}
+            style={styles.btnTouchables}>
+                <Text style={styles.btnText}>Set All</Text>
+            </TouchableOpacity>
+            <TouchableOpacity 
+            onPress={() => {
+                navigation.navigate('AuxCard')
+            }}
+            style={styles.btnTouchables}>
+                <Text style={styles.btnText}>Auxiliar getCard</Text>
+            </TouchableOpacity>
         </View>
-    </View>
+    </ScrollView>
   )
 }
 
@@ -45,6 +68,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#ACC8E5',
         borderBottomColor: 'black',
         borderBottomWidth: 1,
+        fontFamily: 'Montserrat',
     },
     btnTouchables: {
         backgroundColor: '#112A46',
@@ -57,5 +81,6 @@ const styles = StyleSheet.create({
         color: 'white',
         textAlign: 'center',
         fontSize: 20,
+        fontFamily: 'MontserratBold',
     }
 })
