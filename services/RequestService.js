@@ -3,6 +3,7 @@ import axios from 'axios';
 export async function getCardFromAPI(id){
     try {
         const response = await axios.get(`https://api.pokemontcg.io/v2/cards/${id}`);
+        
         return response.data.data;
     } catch (error) {
         console.error(error);

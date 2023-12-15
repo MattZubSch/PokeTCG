@@ -47,7 +47,7 @@ const HomeScreen = ({navigation}) => {
             </TouchableOpacity>
             <TouchableOpacity 
             onPress={() => {
-                navigation.navigate('AuxCard')
+                navigation.navigate('Buscar Carta')
             }}
             style={styles.btnTouchables}>
                 <Text style={styles.btnText}>Auxiliar getCard</Text>

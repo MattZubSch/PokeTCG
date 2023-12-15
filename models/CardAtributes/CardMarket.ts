@@ -1,15 +1,17 @@
-export class CardMarket {
+export class CardMarket implements ICardMarket {
     url: string;
     updatedAt: string;
-    prices: number;
+    prices: {
+        averageSellPrice: number;
+    };
 
-    constructor(request: ICardMarket) {
-        this.url = request.url;
-        this.updatedAt = request.updatedAt;
-        this.prices = request.prices.averageSellPrice;
+    constructor(url: string, updatedAt: string, prices: { averageSellPrice: number }) {
+        this.url = url;
+        this.updatedAt = updatedAt;
+        this.prices = prices;
     }
 
-    public static createCardMarket(request: ICardMarket): CardMarket {
-        return new CardMarket(request);
+    static createCardMarket(data: ICardMarket): CardMarket {
+        return new CardMarket(data.url, data.updatedAt, { averageSellPrice: data.prices.averageSellPrice });
     }
 }
