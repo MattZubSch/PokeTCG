@@ -12,7 +12,7 @@ const VisualizeCard = ({route}) => {
 
     useEffect(() => {
         // console.log('xy7-' + id.toString())
-        getCardFromAPI('xy7-' + id.toString())
+        getCardFromAPI('basep-' + id.toString())
             .then((cardData) => {
                 // console.log(cardData);
                 // Realiza cualquier otra operación con los datos aquí
@@ -48,6 +48,9 @@ const VisualizeCard = ({route}) => {
 
     if (card) {
         let hp100 = card.hp * 100 / 300
+        if (hp100 > 100) {
+            hp100 = 100
+        }
         hpBar = hp100 + '%'
         console.log(hpBar)
     }
@@ -71,7 +74,7 @@ const VisualizeCard = ({route}) => {
                         <View style={styles.hpContainer}>
                             <Text style={{width: '15%'}}>HP: </Text>
                             <View style={styles.hp}>
-                                <View style={{width: hpBar , height: 10, backgroundColor: 'red'}}></View>
+                                <View style={{width: hpBar , height: 10, backgroundColor: 'red', borderRadius: 10}}></View>
                             </View>
                             <Text style={{width: '15%'}}>{card.hp}</Text>    
                         </View>
@@ -93,7 +96,49 @@ const VisualizeCard = ({route}) => {
                             </View>
                         </View>
                     </View>
-                    <View style={styles.textAndWeaknessesContainer}>
+                    <View style={styles.evoWeakandResist}>
+                        <View style={styles.weakAndResistContainer}>
+                            <View style={styles.weakContainer}>
+                                <Text style={styles.typeTitleText}>Weaknesses</Text>
+                                {card.weaknesses.length == 0 && <Text style={styles.typeText}> - </Text>}
+                                {card.weaknesses.map((weakness) => {
+                                    return (
+                                        <Text style={styles.typeText}>{weakness.type} {weakness.value}</Text>
+                                    )}
+                                )}
+                            </View>
+                            <View style={styles.resistContainer}>
+                                <Text style={styles.typeTitleText}>Resistances</Text>
+                                {card.resistances.length == 0 && <Text style={styles.typeText}> - </Text>}
+                                {card.resistances.map((resistances) => {
+                                    return (
+                                        <Text style={styles.typeText}>{resistances.type} {resistances.value}</Text>
+                                    )}
+                                )}
+                            </View>
+                        </View>
+                        <View style={styles.evolveContainer}>
+                                {card.evolvesFrom && (
+                                    <>
+                                        <View style={styles.evoCont}>
+                                            <Text style={styles.typeTitleText}>Evolves From</Text>
+                                            <Text style={styles.typeText}>{card.evolvesFrom}</Text>
+                                        </View>
+                                    </>
+                                )}
+                                {card.evolvesTo && (
+                                    <>
+                                        <View style={styles.evoCont}>
+                                            <Text style={styles.typeTitleText}>Evolves To</Text>
+                                            {card.evolvesTo.map((evolvesTo) => (
+                                                <Text style={styles.typeText}>{evolvesTo}</Text>
+                                            ))}
+                                    </View>
+                                    </>
+                                )}
+                        </View>
+                    </View>
+                    <View style={styles.textContainer}>
                         <View style={styles.flavorRulesContainer}>
                             {card.flavorText && <Text style={styles.flavorRulesText}>{card.flavorText}</Text>}
                             {card.rules && <Text style={styles.flavorRulesText}>{card.rules}</Text>}
@@ -140,6 +185,7 @@ const styles = StyleSheet.create({
         width: Dimensions.get('window').width * 0.9,
         height: Dimensions.get('window').height * 0.5,
         marginVertical: 20,
+        
     },
     dataContainer: {
         flex: 1,
@@ -173,6 +219,7 @@ const styles = StyleSheet.create({
         height: 10,
         backgroundColor: 'grey',
         marginHorizontal: 5,
+        borderRadius: 10,
     },
     typesContainer: {
         flexDirection: 'row',
@@ -200,7 +247,45 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
-    textAndWeaknessesContainer: {
+    evoWeakandResist: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-evenly',
+        width: '100%',
+        padding: 5,
+        marginVertical: 5,
+    },
+    weakAndResistContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '50%',
+    },
+    weakContainer: {
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginHorizontal: 5
+    },
+    resistContainer: {
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginHorizontal: 5
+    },
+    evolveContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-evenly',
+        width: '50%',
+    },
+    evoCont: {
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginHorizontal: 5  
+    },
+    textContainer: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-evenly',
@@ -212,7 +297,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        width: '60%',
+        width: '100%',
         padding: 5,
         borderTopLeftRadius: 10,
         borderBottomRightRadius: 10,
