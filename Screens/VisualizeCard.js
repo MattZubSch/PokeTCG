@@ -4,18 +4,16 @@ import { getCardFromAPI } from '../services/RequestService'
 import { convertFromJson} from '../services/CardService'
 
 const VisualizeCard = ({route}) => {
-    const { id } = route.params;
+    const { set, id } = route.params;
     const [card, setCard] = useState(null);
-    const [imageDimensions, setImageDimensions] = useState({ width: 0, height: 0 });
+    // const [imageDimensions, setImageDimensions] = useState({ width: 0, height: 0 });
 
     let hpBar = '0%'
 
     useEffect(() => {
-        // console.log('xy7-' + id.toString())
-        getCardFromAPI('basep-' + id.toString())
+        console.log(set + '-' + id.toString())
+        getCardFromAPI(set + '-' + id.toString())
             .then((cardData) => {
-                // console.log(cardData);
-                // Realiza cualquier otra operación con los datos aquí
                 const card = convertFromJson(cardData)
                 console.log("Carta impresa: ")
                 console.log(card.name)
@@ -46,7 +44,24 @@ const VisualizeCard = ({route}) => {
         )
     }
 
-    if (card) {
+    if (card && card.supertype != 'Pokémon') {
+        return (
+            <View style={styles.container}>
+                <View style={styles.titleContainer}>
+                    <Text style={styles.titleName}>{card.name} </Text>
+                </View>
+                <View>
+                    <Image
+                        source={{uri: card.images.large}}
+                        style={styles.image}
+                        resizeMode="contain"
+                    />
+                </View>
+            </View>
+        )
+    }
+
+    if (card && card.hp) {
         let hp100 = card.hp * 100 / 300
         if (hp100 > 100) {
             hp100 = 100
@@ -143,6 +158,39 @@ const VisualizeCard = ({route}) => {
                             {card.flavorText && <Text style={styles.flavorRulesText}>{card.flavorText}</Text>}
                             {card.rules && <Text style={styles.flavorRulesText}>{card.rules}</Text>}
                         </View>
+                    </View>
+                    <View style={styles.abilityAndAttackContainer}>
+                        {card.abilities && (
+                            <>
+                                <View style={styles.abiOrAttContainer}>
+                                    {card.abilities.map((ability) => (
+                                        <>
+                                            <View style={styles.abilityCont}>
+                                                <View style={styles.abilityData}>
+                                                    <Text style={styles.ability}>Ability</Text>
+                                                    <Text style={{fontFamily: 'MontserratBold', marginLeft: 10}}>{ability.name}</Text>
+                                                </View>
+                                                <Text style={styles.typeText}>{ability.text}</Text>
+                                            </View>
+                                        </>
+                                    ))}
+                                </View>
+                            </>
+                        )}
+                        {card.attacks && (
+                            <>
+                                    <Text style={styles.typeTitleText}>Attacks</Text>
+                                    {card.attacks.map((attack) => (
+                                <View style={styles.abiOrAttContainer}>
+                                        <>
+                                            <Text style={styles.typeText}>{attack.name}</Text>
+                                            <Text style={styles.typeText}>{attack.text}</Text>
+                                            <Text style={styles.typeText}>{attack.damage}</Text>
+                                        </>
+                                </View>
+                                ))}
+                            </>
+                        )}
                     </View>
                 </View>
             </View>
@@ -308,5 +356,47 @@ const styles = StyleSheet.create({
         fontSize: 12,
         fontFamily: 'Montserrat',
         color: 'black',
+    },
+    abilityAndAttackContainer: {
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'space-evenly',
+        width: '100%',
+        // padding: 5,
+        // marginVertical: 5,
+    },
+    abiOrAttContainer: {
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '100%',
+        // padding: 5,
+        borderTopLeftRadius: 10,
+        borderBottomRightRadius: 10,
+        borderWidth: 2,
+        borderColor: 'black',
+        marginVertical: 5,
+    },
+    abilityCont: {
+        flexDirection: 'column',
+        alignItems: 'start',
+        justifyContent: 'center',
+        // marginHorizontal: 5
+    },
+    abilityData: {
+        fontSize: 12,
+        fontFamily: 'Montserrat',
+        color: 'black',
+        flexDirection: 'row',
+        
+    },
+    ability: {
+        borderTopLeftRadius: 10,
+        borderBottomRightRadius: 10,
+        borderWidth: 2,
+        borderLeftWidth: 0,
+        borderTopWidth: 0,
+        borderColor: 'black',
+        padding: 5
     },
 })

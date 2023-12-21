@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 export async function getCardFromAPI(id){
+    console.log(id)
     try {
         const response = await axios.get(`https://api.pokemontcg.io/v2/cards/${id}`);
         
